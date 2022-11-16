@@ -4,7 +4,7 @@ terraform {
   
 
   backend "s3" {
-    bucket         = "pagcom-codebuild-demo-terraform-tfstate"
+    bucket         = "NAME-codebuild-demo-terraform-tfstate"
     key            = "terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "codebuild-dynamodb-terraform-locking"
@@ -29,8 +29,8 @@ provider "aws" {
 ## Build an S3 bucket and DynamoDB for Terraform state and locking
 module "bootstrap" {
   source                              = "./modules/bootstrap"
-  s3_tfstate_bucket                   = "pagcom-codebuild-demo-terraform-tfstate"
-  s3_logging_bucket_name              = "pagcom-codebuild-demo-logging-bucket"
+  s3_tfstate_bucket                   = "NAME-codebuild-demo-terraform-tfstate"
+  s3_logging_bucket_name              = "NAME-codebuild-demo-logging-bucket"
   dynamo_db_table_name                = "codebuild-dynamodb-terraform-locking"
   codebuild_iam_role_name             = "CodeBuildIamRole"
   codebuild_iam_role_policy_name      = "CodeBuildIamRolePolicy"
@@ -41,7 +41,7 @@ module "bootstrap" {
 ## Build a CodeCommit git repo
 module "codecommit" {
   source          = "./modules/codecommit"
-  repository_name = "PagCOMTerraformIaC"
+  repository_name = "NAMETerraformIaC"
 }
 
 ## Build CodeBuild projects for Terraform Plan and Terraform Apply
@@ -58,7 +58,7 @@ module "codebuild" {
 module "codepipeline" {
   source                               = "./modules/codepipeline"
   tf_codepipeline_name                 = "TerraformCodePipeline"
-  tf_codepipeline_artifact_bucket_name = "pagcom-codebuild-demo-artifact-bucket-name"
+  tf_codepipeline_artifact_bucket_name = "NAME-codebuild-demo-artifact-bucket-name"
   tf_codepipeline_role_name            = "TerraformCodePipelineIamRole"
   tf_codepipeline_role_policy_name     = "TerraformCodePipelineIamRolePolicy"
   terraform_codecommit_repo_name       = module.codecommit.terraform_codecommit_repo_name
